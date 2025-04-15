@@ -1,0 +1,127 @@
+<!-- Declares the HTML version to the browser. In this case, HTML5. -->
+ 
+<!DOCTYPE html>
+
+<!-- Root element of the HTML document, sets the main language to English. -->
+
+<html lang="en">
+
+<!-- Contains metadata about the HTML document, information not directly visible on the page. -->
+
+<head>
+
+  <!-- Specifies the character encoding as UTF-8, supporting most characters. -->
+
+  <meta charset="UTF-8" />
+
+  <!-- Configures the viewport for mobile devices, making the page responsive. -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Sets the title that appears in the browser tab or window title bar. -->
+
+  <title>SPARTAN EXPLORER</title>
+
+  <!-- Link to an external stylesheet hosted on Google Fonts, importing the "Orbitron" font. -->
+
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+
+  <!-- Link to a local external stylesheet named "styles.css", containing the page styles. -->
+
+  <link rel="stylesheet" href="styles.css">
+
+<!-- Closes the <head> section. -->
+
+</head>
+
+<body>
+  
+  <!-- HUD container -->
+
+  <div class="hud-container">
+
+    <!-- Static HUD text -->
+
+    <div class="hud-text">SPARTAN INTERFACE ONLINE - SISTEMS ACTIVE</div>
+
+    <!-- Player's ship -->
+
+    <div class="player-ship" id="player"></div>
+
+    <!-- Radar effects -->
+
+    <div class="radar-ring"></div>
+
+    <div class="radar-ring-extra"></div>
+
+    <!-- Decorative corners -->
+
+    <div class="hud-corner top-left"></div>
+
+    <div class="hud-corner top-right"></div>
+
+    <div class="hud-corner bottom-left"></div>
+
+    <div class="hud-corner bottom-right"></div>
+
+    <!-- Status bar with timer -->
+
+    <div class="status-bar">
+
+      <div class="status-fill" id="statusFill"></div>
+
+    </div>
+
+    <!-- Scoreboard -->
+
+    <div class="score" id="score">Score: 0</div>
+
+    <!-- Targets -->
+
+    <div class="target-indicator" id="target1"></div>
+
+    <div class="target-label" id="label1">TARGET</div>
+
+    <div class="target-indicator" id="target2"></div>
+
+    <div class="target-label" id="label2">TARGET</div>
+
+    <div class="target-indicator" id="target3"></div>
+
+    <div class="target-label" id="label3">TARGET</div>
+
+    <!-- Mini radar -->
+
+    <div class="mini-radar" id="miniRadar">
+
+      <div class="mini-grid"></div>
+
+      <div class="mini-pulse"></div>
+
+      <div class="mini-radar-center"></div>
+
+    </div>
+
+    <!-- Footer -->
+
+    <div class="hud-footer">Version 1.0 - Last updated: April 10, 2025</div>
+
+  </div>
+
+  <!-- Initial overlay to start the game -->
+
+  <div class="start-overlay" id="startOverlay">
+
+    <h1>SPARTAN EXPLORER</h1>
+
+    <button id="startBtn">Start Game</button>
+
+  </div>
+
+  <!-- Link to the external JavaScript file -->
+
+  <script src="game.js"></script>
+
+</body>
+
+</html>

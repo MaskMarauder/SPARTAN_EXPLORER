@@ -1,0 +1,403 @@
+/* General styles */
+body {
+  margin: 0;                                      /* Remove default page margin */
+                                                  /* Space-themed background image */
+  background: url('https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?q=80&w=1193&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center;
+  background-size: cover;                         /* Make the background cover the entire screen */
+  overflow: hidden;                               /* Prevent scrollbars from appearing */
+  font-family: 'Orbitron', sans-serif;            /* Futuristic font */
+  color: #39ff14;                               /* Neon green text */
+}
+
+.hud-container {
+  position: relative;                             /* Enable positioning of child elements */
+  width: 100vw;                                   /* Full viewport width */
+  height: 100vh;                                  /* Full viewport height */
+}
+
+/* Player spaceship (replaces center-crosshair) */
+.player-ship {
+  position: absolute;                             /* Allows free placement on screen */
+  width: 30px;                                    /* Sets the element's width to 30 pixels */
+  height: 40px;                                   /* Sets the element's height to 40 pixels */
+  background-color: #39ff14;                    /* Neon green */
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%); /* Triangle shape */
+  transform: translate(-50%, -50%);               /* Center the shape based on its position */
+  z-index: 10;                                    /* Place above most other elements */
+}
+
+/* Radar effects */
+.radar-ring, .radar-ring-extra {
+  position: absolute;                             /* Positions the element absolutely within its closest positioned ancestor */
+  top: 50%;                                       /* Moves the element 50% down from the top of the containing element */
+  left: 50%;                                      /* Moves the element 50% from the left of the containing element */
+  width: 200px;                                   /* Sets the element's width to 200 pixels */
+  height: 200px;                                  /* Sets the element's height to 200 pixels */
+  border: 1px solid rgba(57,255,20,0.3);        /* Semi-transparent border */
+  border-radius: 50%;                             /* Circular shape */
+  transform: translate(-50%, -50%);               /* Center the element */
+}
+
+.radar-ring {
+  animation: pulse 2s infinite;                   /* Pulsing effect */
+}
+
+.radar-ring-extra {
+  width: 250px;                                   /* Sets the element's width to 250 pixels */
+  height: 250px;                                  /* Sets the element's height to 250 pixels */
+  border-color: rgba(57,255,20,0.1);            /* Lighter border */
+  animation: spin 12s linear infinite;            /* Slow spinning effect */
+}
+
+/* Animation for pulsing radar */
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);    /* Start at normal size and centered */
+    opacity: 1;                                   /* Fully visible */
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.2);  /* Slightly larger but still centered */
+    opacity: 0;                                   /* Fully transparent */
+  }
+}
+
+/* Animation for rotating radar ring */
+@keyframes spin {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);    /* Start at original position and no rotation */
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);  /* Complete one full rotation while staying centered */
+  }
+}
+
+/* Decorative HUD corners */
+.hud-corner {
+  position: absolute;                     /* Position each corner relative to the nearest positioned ancestor */
+  width: 80px;                            /* Set the width of the corner box */
+  height: 80px;                           /* Set the height of the corner box */
+  border: 2px solid #39ff14;            /* Draw a 2px solid neon green border */
+}
+
+/* Positioning each corner */
+.top-left {
+  top: 20px;                              /* Position 20px from the top of the screen */
+  left: 20px;                             /* Position 20px from the left of the screen */
+  border-right: none;                     /* Remove the right border for visual styling */
+  border-bottom: none;                    /* Remove the bottom border for visual styling */
+}
+
+.top-right {
+  top: 20px;                              /* Position 20px from the top of the screen */
+  right: 20px;                            /* Position 20px from the right of the screen */
+  border-left: none;                      /* Remove the left border for visual styling */
+  border-bottom: none;                    /* Remove the bottom border for visual styling */
+}
+
+.bottom-left {
+  bottom: 20px;                           /* Position 20px from the bottom of the screen */
+  left: 20px;                             /* Position 20px from the left of the screen */
+  border-right: none;                     /* Remove the right border for visual styling */
+  border-top: none;                       /* Remove the top border for visual styling */
+}
+
+.bottom-right {
+  bottom: 20px;                           /* Position 20px from the bottom of the screen */
+  right: 20px;                            /* Position 20px from the right of the screen */
+  border-left: none;                      /* Remove the left border for visual styling */
+  border-top: none;                       /* Remove the top border for visual styling */
+}
+
+/* Status bar (for timer or health) */
+.status-bar {
+  position: absolute;                     /* Position the element absolutely within its container */
+  left: 50%;                              /* Position it 50% from the left edge of the container */
+  bottom: 50px;                           /* Position it 50px from the bottom of the screen */
+  transform: translateX(-50%);            /* Shift the element by -50% of its own width to center it horizontally */
+  width: 300px;                           /* Set the width of the status bar to 300px */
+  height: 8px;                            /* Set the height of the status bar to 8px */
+  background: rgba(57,255,20,0.1);      /* Set the background color to a transparent neon green (rgba with low opacity) */
+  border: 1px solid #39ff14;            /* Add a 1px solid neon green border around the status bar */
+  box-shadow: 0 0 10px #39ff14;         /* Add a glowing shadow effect in neon green around the status bar */
+}
+
+
+/* Inner fill of the status bar (controlled by JavaScript) */
+.status-fill {
+  width: 100%;                            /* Set the width of the fill to 100% of the parent (status bar) */
+  height: 100%;                           /* Set the height of the fill to 100% of the parent (status bar) */
+  background: #39ff14;                  /* Set the fill's background color to neon green */
+}
+
+
+/* Blinking HUD text */
+.hud-text {
+  position: absolute;                     /* Positions the text absolutely within its parent container */
+  top: 30px;                              /* Positions the text 30px from the top of the container */
+  left: 50%;                              /* Centers the text horizontally by placing it 50% from the left */
+  transform: translateX(-50%);            /* Adjusts the horizontal position by -50% of the element's width, centering it */
+  font-size: 18px;                        /* Sets the font size of the text to 18px */
+  color: #39ff14;                       /* Sets the text color to neon green */
+  animation: blink 1s infinite;           /* Applies the "blink" animation to the text, with a duration of 1 second and an infinite loop */
+}
+
+
+@keyframes blink {                        /* Defines a new animation called 'blink' */
+  0%, 100% { opacity: 1; }                /* At the start (0%) and end (100%) of the animation, the opacity is set to 1 (fully visible) */
+  50% { opacity: 0.3; }                   /* At the halfway point (50%), the opacity is set to 0.3 (semi-transparent) */
+}
+
+
+/* Score panel (replaces info-panel) */
+.score {
+  position: absolute;                     /* Positions the score panel absolutely relative to the nearest positioned ancestor */
+  top: 40px;                              /* Positions the top of the panel 40px from the top of the container */
+  right: 40px;                            /* Positions the right of the panel 40px from the right of the container */
+  color: #39ff14;                       /* Sets the text color to a neon green (#39ff14) */
+  font-size: 20px;                        /* Sets the font size to 20px */
+  background: rgba(0,0,0,0.5);          /* Sets the background to a semi-transparent black (50% opacity) */
+  padding: 8px 12px;                      /* Adds 8px padding on top and bottom, and 12px padding on left and right */
+  border: 1px solid #39ff14;            /* Adds a 1px solid border in neon green */
+  box-shadow: 0 0 8px #39ff14;          /* Adds a glowing box shadow with neon green */
+}
+
+
+/* Target indicators */
+.target-indicator {
+  position: absolute;                     /* Positions the target indicator absolutely relative to the nearest positioned ancestor */
+  width: 0;                               /* Sets the width to 0, since the shape is created with borders */
+  height: 0;                              /* Sets the height to 0, as the shape is created using borders */
+  border-left: 15px solid transparent;    /* Creates an invisible 15px left border */
+  border-right: 15px solid transparent;   /* Creates an invisible 15px right border */
+  border-bottom: 25px solid transparent;  /* Creates an invisible 25px bottom border */
+  border-top: 25px solid red;           /* Creates a 25px solid red border on top, forming a triangle pointing upwards */
+  transform: translate(-50%, -50%);       /* Centers the indicator by adjusting its position with a translation of -50% on both axes */
+}
+
+
+/* Label above each target */
+.target-label {
+  position: absolute;                     /* Positions the label absolutely relative to the nearest positioned ancestor */
+  color: red;                           /* Sets the text color to red */
+  font-size: 14px;                        /* Sets the font size of the label to 14px */
+  text-shadow: 0 0 5px #ff0000;         /* Adds a red text shadow with a blur of 5px for better visibility */
+  top: 50px;                              /* Positions the label 50px from the top of the container */
+  left: 50%;                              /* Horizontally centers the label within its container */
+  transform: translateX(-50%);            /* Adjusts the label's position by translating it by -50% of its width to truly center it */
+}
+
+
+/* Mini radar with grid and pulse effect */
+.mini-radar {
+  position: absolute;                     /* Positions the mini radar absolutely relative to the nearest positioned ancestor */
+  bottom: 40px;                           /* Positions the mini radar 40px from the bottom of its container */
+  left: 50px;                             /* Positions the mini radar 50px from the left of its container */
+  width: 150px;                           /* Sets the width of the mini radar to 150px */
+  height: 150px;                          /* Sets the height of the mini radar to 150px */
+  border: 2px solid #39ff14;            /* Adds a 2px solid neon green border around the mini radar */
+  border-radius: 50%;                     /* Makes the mini radar container a perfect circle */
+  background: transparent;                /* Sets the background to transparent to show only the circular border */
+  overflow: hidden;                       /* Hides anything that overflows the circle boundary */
+  box-shadow: 0 0 10px #39ff14;         /* Adds a neon green glow effect around the mini radar */
+}
+
+
+/* Grid background inside mini radar */
+.mini-grid {
+  position: absolute;                     /* Positions the grid absolutely relative to the nearest positioned ancestor */
+  top: -3%;                               /* Positions the grid slightly above (3%) the top of the mini radar container */
+  left: -3%;                              /* Positions the grid slightly to the left (3%) of the mini radar container */
+  width: 100%;                            /* Sets the grid's width to fill the entire width of the mini radar container */
+  height: 100%;                           /* Sets the grid's height to fill the entire height of the mini radar container */
+  background-image:                       /* Defines two linear gradients to create the grid lines */
+    linear-gradient(90deg, rgba(57,255,20,0.4) 1px, transparent 1px), /* Horizontal lines (green with transparency) */
+    linear-gradient(0deg, rgba(57,255,20,0.4) 1px, transparent 1px); /* Vertical lines (green with transparency) */
+  background-size: 20px 20px;             /* Sets the size of each grid cell to 20px by 20px */
+  z-index: 0;                             /* Ensures the grid stays behind other elements with higher z-index values */
+  pointer-events: none;                   /* Disables interaction with the grid, allowing clicks to pass through to elements underneath */
+}
+
+
+/* Expanding circle effect */
+.mini-pulse {
+  position: absolute;                        /* Positions the circle absolutely relative to the nearest positioned ancestor */
+  top: 50%;                                  /* Positions the circle vertically at the center (50% of the container's height) */
+  left: 50%;                                 /* Positions the circle horizontally at the center (50% of the container's width) */
+  width: 100%;                               /* Sets the circle's width to fill the entire width of its container */
+  height: 100%;                              /* Sets the circle's height to fill the entire height of its container */
+  border: 5px solid rgba(57,255,20,0.5);   /* Creates a border with a neon green color (semi-transparent) for the circle */
+  border-radius: 50%;                        /* Makes the element a circle by applying 50% radius */
+  transform: translate(-50%, -50%) scale(0); /* Positions the circle at the center and initially scales it down to 0 (hidden) */
+  animation: miniPulse 2s infinite;          /* Applies the 'miniPulse' animation, making it expand and fade in/out continuously */
+  z-index: 1;                                /* Ensures the pulse is displayed above the mini radar grid (which has z-index: 0) */
+  pointer-events: none;                      /* Disables interaction with the pulse, allowing clicks to pass through */
+}
+
+
+/* Animation for mini radar pulse */
+@keyframes miniPulse {                          /* Define a new keyframe animation called 'miniPulse' */
+  0% {                                          /* At the start of the animation (0% completion): */
+    transform: translate(-50%, -50%) scale(0);  /* The element is centered (50% from top and left) and scaled down to 0, making it invisible */
+    opacity: 1;                                 /* Fully opaque at the start */
+  }
+  100% {                                        /* At the end of the animation (100% completion): */
+    transform: translate(-50%, -50%) scale(1);  /* The element is still centered, but now scaled to 1 (full size) */
+    opacity: 0;                                 /* The element fades out by becoming fully transparent */
+  }
+}
+
+
+/* Dot representing target or object on radar */
+.mini-dot {                                    /* Define a class for the mini radar dot */
+  position: absolute;                          /* The dot is positioned absolutely within its container */
+  width: 6px;                                  /* The dot has a width of 6 pixels */
+  height: 6px;                                 /* The dot has a height of 6 pixels, making it a circle */
+  background: red;                           /* The dot is filled with a red color */
+  border-radius: 50%;                          /* The border radius is set to 50%, making it a perfect circle */
+  opacity: 0.9;                                /* The dot is slightly transparent with 90% opacity */
+  box-shadow: 0 0 5px red;                   /* The dot has a red glow effect with a 5px blur radius */
+  z-index: 2;                                  /* The dot is positioned above other elements (higher stacking order) */
+}
+
+
+/* Center arrow of mini radar */
+.mini-radar-center {                          /* Define a class for the center arrow in the mini radar */
+  position: absolute;                         /* The arrow is positioned absolutely within its container */
+  width: 0;                                   /* The arrow's width is set to 0 (it's shaped with borders) */
+  height: 0;                                  /* The arrow's height is also 0, as it uses borders for shape */
+  border-left: 6px solid transparent;         /* Creates a transparent left border to form part of the arrow */
+  border-right: 6px solid transparent;        /* Creates a transparent right border to form the other part of the arrow */
+  border-bottom: 12px solid #39ff14;        /* Creates a solid green border at the bottom to form the arrowhead */
+  top: 50%;                                   /* Positions the arrow vertically at the center of its container */
+  left: 50%;                                  /* Positions the arrow horizontally at the center of its container */
+  transform: translate(-50%, -50%);           /* Adjusts the position by translating it back by 50% of its width and height to truly center it */
+  box-shadow: 0 -10px 15px rgba(248,246,240,1); /* Adds a subtle shadow above the arrow to create a glow effect */
+}
+
+
+/* HUD footer (for credits or version info) */
+.hud-footer {                                 /* Define a class for the HUD footer element */
+  position: absolute;                         /* Positions the footer absolutely within the HUD container */
+  bottom: 5px;                                /* Places the footer 5px from the bottom edge of the container */
+  right: 10px;                                /* Places the footer 10px from the right edge of the container */
+  font-size: 12px;                            /* Sets the font size to 12px for the text in the footer */
+  color: #39ff14;                           /* Sets the text color to neon green (#39ff14) */
+  opacity: 0.6;                               /* Sets the opacity to 60%, making the footer text semi-transparent */
+  font-family: monospace;                     /* Uses a monospace font for the footer text, giving it a techy, console-like feel */
+}
+
+
+/* Victory overlay screen */
+.victory-overlay {                            /* Define a class for the victory overlay screen */
+  position: fixed;                            /* Positions the overlay fixed in the viewport, it will stay in place when scrolling */
+  top: 0;                                     /* Aligns the top edge of the overlay to the top of the viewport */
+  left: 0;                                    /* Aligns the left edge of the overlay to the left of the viewport */
+  width: 100vw;                               /* Sets the width to 100% of the viewport width */
+  height: 100vh;                              /* Sets the height to 100% of the viewport height */
+  background: rgba(0,0,0,0.8);              /* Sets the background to black with 80% opacity, making it semi-transparent */
+  display: flex;                              /* Uses flexbox layout to position child elements */
+  flex-direction: column;                     /* Arranges the child elements vertically */
+  justify-content: center;                    /* Centers the child elements vertically within the overlay */
+  align-items: center;                        /* Centers the child elements horizontally within the overlay */
+  z-index: 100;                               /* Sets the stacking order to ensure it appears above other elements with a lower z-index */
+}
+
+
+.victory-overlay h1 {                         /* Targets the <h1> tag inside the victory overlay */
+  font-size: 48px;                            /* Sets the font size to 48px for the header text */
+  margin-bottom: 20px;                        /* Adds a 20px margin below the header, creating space between it and the next element */
+  color: #39ff14;                           /* Sets the text color to a neon green (#39ff14) */
+}
+
+
+.victory-overlay button {                     /* Targets the <button> tag inside the victory overlay */
+  font-size: 20px;                            /* Sets the font size to 20px for the button text */
+  padding: 10px 20px;                         /* Adds padding inside the button: 10px top and bottom, 20px left and right */
+  background: transparent;                    /* Sets the button's background to transparent, making it blend with the background */
+  color: #39ff14;                           /* Sets the text color to a neon green (#39ff14) */
+  border: 2px solid #39ff14;                /* Adds a 2px solid neon green border around the button */
+  cursor: pointer;                            /* Changes the cursor to a pointer (hand icon) when hovering over the button */
+}
+
+
+.victory-overlay button:hover {               /* Targets the <button> element inside victory overlay when hovered */
+  background: #39ff14;                      /* Sets the background color to neon green (#39ff14) when the button is hovered */
+  color: #000;                              /* Changes the text color to black (#000) when the button is hovered */
+}
+
+
+.gameover-overlay {                           /* Targets the overlay element that appears when the game is over */
+  position: fixed;                            /* Fixes the overlay to the screen, so it stays in place while scrolling */
+  top: 0;                                     /* Aligns the overlay to the top edge of the screen */
+  left: 0;                                    /* Aligns the overlay to the left edge of the screen */
+  width: 100vw;                               /* Sets the overlay width to 100% of the viewport width */
+  height: 100vh;                              /* Sets the overlay height to 100% of the viewport height */
+  background: rgba(0,0,0,0.8);              /* Sets a semi-transparent black background with opacity 0.8 */
+  display: flex;                              /* Uses Flexbox to lay out the content inside the overlay */
+  flex-direction: column;                     /* Aligns the child elements (like text and buttons) in a vertical stack */
+  justify-content: center;                    /* Centers the child elements vertically */
+  align-items: center;                        /* Centers the child elements horizontally */
+  z-index: 100;                               /* Ensures the overlay appears above other elements (higher stacking order) */
+}
+
+
+.gameover-overlay h1 {                        /* Targets the <h1> element inside the .gameover-overlay */
+  font-size: 48px;                            /* Sets the font size to 48 pixels for the heading */
+  margin-bottom: 20px;                        /* Adds a 20px margin below the heading for spacing */
+  color: #39ff14;                           /* Sets the text color to neon green (#39ff14) */
+}
+
+
+.gameover-overlay button {                    /* Targets the <button> element inside the .gameover-overlay */
+  font-size: 20px;                            /* Sets the font size to 20 pixels for the button text */
+  padding: 10px 20px;                         /* Adds 10px padding on top and bottom, and 20px padding on left and right */
+  background: transparent;                    /* Makes the button background transparent */
+  color: #39ff14;                           /* Sets the text color to neon green (#39ff14) */
+  border: 2px solid #39ff14;                /* Adds a solid 2px neon green border around the button */
+  cursor: pointer;                            /* Changes the mouse cursor to a pointer when hovering over the button */
+}
+
+
+.gameover-overlay button:hover {              /* Targets the <button> element inside .gameover-overlay when hovered */
+  background: #39ff14;                      /* Changes the background color to neon green (#39ff14) when hovered */
+  color: #000;                              /* Changes the text color to black (#000) when hovered */
+}
+
+
+.start-overlay {                              /* Targets the overlay for the start screen */
+  position: fixed;                            /* Fixes the overlay in place on the screen */
+  top: 0;                                     /* Positions the overlay at the top of the viewport */
+  left: 0;                                    /* Positions the overlay at the left edge of the viewport */
+  width: 100vw;                               /* Makes the overlay cover the entire width of the viewport (100% of the width) */
+  height: 100vh;                              /* Makes the overlay cover the entire height of the viewport (100% of the height) */
+  background: rgba(0,0,0,0.9);              /* Sets a semi-transparent black background (90% opacity) */
+  display: flex;                              /* Uses Flexbox to align and position content */
+  flex-direction: column;                     /* Aligns the children (content) in a vertical column */
+  justify-content: center;                    /* Centers the content vertically within the overlay */
+  align-items: center;                        /* Centers the content horizontally within the overlay */
+  z-index: 200;                               /* Ensures that this overlay appears above other elements with a lower z-index */
+}
+
+
+.start-overlay h1 {                           /* Targets the <h1> element inside the .start-overlay */
+  font-size: 48px;                            /* Sets the font size of the <h1> to 48 pixels */
+  margin-bottom: 20px;                        /* Adds a 20px space below the <h1> element */
+  color: #39ff14;                           /* Sets the text color to neon green (#39ff14) */
+}
+
+
+.start-overlay button {                       /* Targets the <button> element inside the .start-overlay */
+  font-size: 20px;                            /* Sets the font size of the button text to 20 pixels */
+  padding: 10px 20px;                         /* Adds 10px padding at the top/bottom and 20px padding on the sides */
+  background: transparent;                    /* Makes the button's background transparent */
+  color: #39ff14;                           /* Sets the text color of the button to neon green (#39ff14) */
+  border: 2px solid #39ff14;                /* Adds a 2px solid neon green border around the button */
+  cursor: pointer;                            /* Changes the cursor to a pointer (hand icon) when hovering over the button */
+}
+
+
+.start-overlay button:hover {                 /* Targets the <button> element inside the .start-overlay when hovered */
+  background: #39ff14;                      /* Sets the background color to neon green (#39ff14) when hovered */
+  color: #000;                              /* Changes the text color to black (#000) when hovered */
+}
+
